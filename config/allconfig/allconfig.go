@@ -734,7 +734,7 @@ func (c *Configs) Validate(logger loggers.Logger) error {
 
 // transientErr returns the last transient error found during config compilation.
 func (c *Configs) transientErr() error {
-	for _, l := range c.LanguageConfigSlice {
+	for _, l := range c.LanguageConfigMap {
 		if l.C.transientErr != nil {
 			return l.C.transientErr
 		}
@@ -751,7 +751,6 @@ func (c *Configs) Init() error {
 	var languages langs.Languages
 	defaultContentLanguage := c.Base.DefaultContentLanguage
 	for k, v := range c.LanguageConfigMap {
-		c.LanguageConfigSlice = append(c.LanguageConfigSlice, v)
 		languageConf := v.Languages[k]
 		language, err := langs.NewLanguage(k, defaultContentLanguage, v.TimeZone, languageConf)
 		if err != nil {
